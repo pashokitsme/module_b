@@ -16,7 +16,7 @@ class RegionController extends Controller
 
     public function exact(ExactRegionRequest $req): JsonResponse
     {
-        return $this->json(Region::find($req->id));
+        return $this->json($req->region);
     }
 
     public function store(CreateRegionRequest $req)
