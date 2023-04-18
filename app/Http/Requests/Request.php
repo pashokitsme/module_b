@@ -8,6 +8,13 @@ use Illuminate\Validation\ValidationException;
 
 class Request extends FormRequest
 {
+    protected $params = [];
+
+    protected function prepareForValidation()
+    {
+        $this->merge(array_combine($this->params, array_map(function($param) { return $this->route($param); }, $this->params)));
+    }
+
     protected function failedValidation(Validator $validator)
     {
         throw new ValidationException($validator, response()->json([

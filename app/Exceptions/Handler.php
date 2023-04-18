@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -30,6 +31,9 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        if ($e instanceof ValidationException)
+            return $e->response;
+
         return response()->json(['data' => ['error' => $e->getMessage(), 'trace' => $e->getTrace()], 'status' => 'error'], 500);
     }
 }

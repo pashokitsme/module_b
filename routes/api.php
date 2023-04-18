@@ -16,5 +16,6 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::get('/regions', [RegionController::class, 'all']);
+    Route::get('/regions/{id}', [RegionController::class, 'exact']);
 
 });
