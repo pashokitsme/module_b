@@ -12,7 +12,7 @@ class BaseModel extends Model
   public static function get($id)
   {
     if (!$target = static::class::find($id))
-      throw new NotFoundHttpException();
+      throw new NotFoundHttpException('Resource ' . static::class . ' (' . $id . ') not found', null, 404);
     return $target;
   }
 }

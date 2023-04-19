@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,8 +24,8 @@ class Handler extends ExceptionHandler
       return $e->response;
 
     if ($e instanceof NotFoundHttpException)
-      return response()->json(['status' => 'error', 'data' => ['error' => 'Not found']], 404);
+      return response()->json(['status' => 'error', 'data' => ['error' => $e->getMessage() == null ? 'Route not found' : $e->getMessage()]], 404);
 
-    return response()->json(['status' => 'error', 'data' => ['error' => $e->getMessage(), 'trace' => $e->getTrace()]], $e->getCode());
+    return response()->json(['status' => 'error', 'data' => ['error' => $e->getMessage(), 'trace' => $e->getTrace()]], 500);
   }
 }

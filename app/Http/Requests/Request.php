@@ -16,13 +16,6 @@ class Request extends FormRequest
         'details' => $validator->errors(),
       ],
       'status' => 'error'
-    ]), 400);
-  }
-
-  protected function passedValidation()
-  {
-    foreach ($this->params as $param => $closure) {
-      $this[$param] = $closure($param);
-    }
+    ], 400));
   }
 }
