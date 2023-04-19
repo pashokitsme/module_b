@@ -1,2 +1,2 @@
-RewriteEngine Off
+RewriteEngine On
 RewriteRule ^(.*)$ public/$1

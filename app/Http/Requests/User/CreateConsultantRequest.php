@@ -6,8 +6,7 @@ use App\Http\Requests\Request;
 
 class CreateConsultantRequest extends Request
 {
-    public function rules()
-    {
-
-    }
+  public function rules()
+  {
+  }
 }

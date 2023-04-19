@@ -7,5 +7,5 @@ use App\Http\Requests\Request;
 
 class ExactRegionRequest extends Request
 {
-    use ExtractRegion;
+  use ExtractRegion;
 }
