@@ -15,20 +15,21 @@ class RegionController extends Controller
     return $this->json(Region::all()->all());
   }
 
-  public function exact(ExactRegionRequest $req): JsonResponse
+  public function exact($id): JsonResponse
   {
-    return $this->json($req->region);
+    return $this->json(Region::get($id));
   }
 
-  public function update(UpdateRegionRequest $req): JsonResponse
+  public function update(CreateRegionRequest $req, $id): JsonResponse
   {
-    $req->region->update($req->all());
-    return $this->json($req->region);
+    $region = Region::get($id);
+    $region->update($req->all());
+    return $this->json($region);
   }
 
-  public function delete(ExactRegionRequest $req): JsonResponse
+  public function delete($id): JsonResponse
   {
-    $req->region->delete();
+    Region::get($id)->delete();
     return $this->json();
   }
 

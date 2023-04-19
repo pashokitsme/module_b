@@ -13,10 +13,10 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::group(['middleware' => 'auth.admin'], function () {
     Route::post('/regions', [RegionController::class, 'store']);
-    Route::delete('/regions/{region}', [RegionController::class, 'delete']);
-    Route::put('/regions/{region}', [RegionController::class, 'update']);
+    Route::delete('/regions/{id}', [RegionController::class, 'delete']);
+    Route::put('/regions/{id}', [RegionController::class, 'update']);
   });
 
   Route::get('/regions', [RegionController::class, 'all']);
-  Route::get('/regions/{region}', [RegionController::class, 'exact']);
+  Route::get('/regions/{id}', [RegionController::class, 'exact']);
 });
