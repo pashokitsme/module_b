@@ -8,13 +8,17 @@ use Illuminate\Validation\ValidationException;
 
 class Request extends FormRequest
 {
+  protected $rules = [];
   protected $params = [];
 
   protected function prepareForValidation()
   {
-    $this->merge(array_combine($this->params, array_map(function ($param) {
+    $keys = array_keys($this->params);
+    $x = array_map(function ($param) {
       return $this->route($param);
-    }, $this->params)));
+    }, $keys);
+
+    $this->merge(array_combine($keys, $x));
   }
 
   protected function failedValidation(Validator $validator)
@@ -28,8 +32,20 @@ class Request extends FormRequest
     ]), 400);
   }
 
-  public function rules()
+  protected function passedValidation()
+  {
+    foreach ($this->params as $param => $closure) {
+      $this[$param] = $closure($param);
+    }
+  }
+
+  protected function validate()
   {
     return [];
+  }
+
+  public function rules()
+  {
+    return array_merge($this->rules, $this->validate());
   }
 }

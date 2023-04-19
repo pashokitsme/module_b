@@ -8,21 +8,10 @@ trait ExtractRegion
 {
   public function __construct()
   {
-    $this->params = ['region'];
-  }
+    $this->params['region'] = function ($x) {
+      $this->region = Region::find($this->region);
+    };
 
-  public function extractRegion()
-  {
-    return ['region' => ['integer', 'required', 'exists:regions,id']];
-  }
-
-  public function rules()
-  {
-    return $this->extractRegion();
-  }
-
-  public function passedValidation()
-  {
-    $this->region = Region::find($this->region);
+    $this->rules['region'] = ['integer', 'required', 'exists:regions,id'];
   }
 }

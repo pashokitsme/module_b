@@ -6,7 +6,7 @@ use App\Http\Requests\Request;
 
 class CreateRegionRequest extends Request
 {
-  public function rules()
+  public function validate()
   {
     return ['name' => ['string', 'required']];
   }
