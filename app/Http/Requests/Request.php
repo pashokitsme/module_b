@@ -8,6 +8,11 @@ use Illuminate\Validation\ValidationException;
 
 class Request extends FormRequest
 {
+  public function rules()
+  {
+    return [];
+  }
+
   protected function failedValidation(Validator $validator)
   {
     throw new ValidationException($validator, response()->json([

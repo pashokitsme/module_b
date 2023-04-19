@@ -12,6 +12,8 @@ Route::prefix('/auth')->group(function () {
 
 Route::group(['middleware' => 'auth'], function () {
 
+  Route::get('/auth/me', [AuthController::class, 'me']);
+
   Route::group(['middleware' => 'auth.admin'], function () {
 
 
