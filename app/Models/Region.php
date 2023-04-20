@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 class Region extends BaseModel
 {
   protected $fillable = ['name'];
@@ -16,6 +18,13 @@ class Region extends BaseModel
     $org = Organization::create(['region_id' => $this->id, 'name' => $name]);
     $org->save();
     return $org;
+  }
+
+  public function delete()
+  {
+    if ($this->organizations->count() > 0)
+      throw new BadRequestHttpException('Region ' . $this->id . ' contains organizations');
+    return $this->delete();
   }
 
   public function organization($id): Organization
