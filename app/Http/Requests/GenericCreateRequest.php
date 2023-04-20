@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateRegionOrOrganizationRequest extends Request
+class GenericCreateRequest extends Request
 {
   public function rules()
   {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateRegionOrOrganizationRequest;
+use App\Http\Requests\GenericCreateRequest;
 use App\Models\Region;
 use Illuminate\Http\JsonResponse;
 
@@ -18,7 +18,7 @@ class RegionController extends Controller
     return $this->json(Region::get($id));
   }
 
-  public function update(CreateRegionOrOrganizationRequest $req, $id): JsonResponse
+  public function update(GenericCreateRequest $req, $id): JsonResponse
   {
     $region = Region::get($id);
     $region->update($req->all());
@@ -31,7 +31,7 @@ class RegionController extends Controller
     return $this->json();
   }
 
-  public function store(CreateRegionOrOrganizationRequest $req)
+  public function store(GenericCreateRequest $req)
   {
     $region = Region::create($req->all());
     $region->save();

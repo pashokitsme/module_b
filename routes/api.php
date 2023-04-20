@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConsultantController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RegionController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,10 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::group(['middleware' => 'auth.admin'], function () {
 
+    Route::prefix('/categories')->group(function () {
+      // Route::get()
+    });
+
 
     Route::prefix('/regions')->group(function () {
       Route::post('/', [RegionController::class, 'store']);
@@ -30,6 +35,11 @@ Route::group(['middleware' => 'auth'], function () {
           Route::prefix('/{orgId}')->group(function () {
             Route::delete('/', [OrganizationController::class, 'delete']);
             Route::put('/', [OrganizationController::class, 'update']);
+
+            Route::prefix('/consultants')->group(function () {
+              Route::get('/', [ConsultantController::class, 'all']);
+              Route::post('/', [ConsultantController::class, 'store']);
+            });
           });
         });
       });

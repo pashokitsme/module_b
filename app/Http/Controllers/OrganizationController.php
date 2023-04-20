@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateRegionOrOrganizationRequest;
+use App\Http\Requests\GenericCreateRequest;
 use App\Models\Region;
 
 class OrganizationController extends Controller
 {
-  public function store(CreateRegionOrOrganizationRequest $req, $regionId)
+  public function store(GenericCreateRequest $req, $regionId)
   {
     return $this->json(Region::get($regionId)->createOrganization($req->name));
   }
@@ -23,7 +23,7 @@ class OrganizationController extends Controller
     return $this->json();
   }
 
-  public function update(CreateRegionOrOrganizationRequest $req, $regionId, $orgId)
+  public function update(GenericCreateRequest $req, $regionId, $orgId)
   {
     $org = Region::get($regionId)->organization($orgId);
     $org->update($req->all());
