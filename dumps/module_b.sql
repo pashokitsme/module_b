@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 19 2023 г., 23:39
+-- Время создания: Апр 21 2023 г., 11:21
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -45,6 +45,40 @@ INSERT INTO `auth_tokens` (`id`, `token`, `user_id`, `updated_at`, `created_at`)
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int NOT NULL,
+  `name` int NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `consultants`
+--
+
+CREATE TABLE `consultants` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `organization_id` int NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `consultants`
+--
+
+INSERT INTO `consultants` (`id`, `user_id`, `organization_id`, `updated_at`, `created_at`) VALUES
+(2, 4, 2, '2023-04-20 19:13:48', '2023-04-20 19:13:48');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `organizations`
 --
 
@@ -61,7 +95,9 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`id`, `region_id`, `name`, `updated_at`, `created_at`) VALUES
-(2, 2, 'Org123', '2023-04-19 20:35:06', '2023-04-19 20:32:08');
+(2, 2, 'Org123', '2023-04-19 20:35:06', '2023-04-19 20:32:08'),
+(3, 2, 'Organization03', '2023-04-19 21:48:53', '2023-04-19 21:48:53'),
+(4, 2, 'Organization03', '2023-04-20 18:40:16', '2023-04-20 18:40:16');
 
 -- --------------------------------------------------------
 
@@ -123,7 +159,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role_id`, `updated_at`, `created_at`) VALUES
-(1, 'Админ', 'q@mail.ru', '123', 1, '2023-04-19 19:21:20', '2023-04-19 19:21:20');
+(1, 'Админ', 'q@mail.ru', '123', 1, '2023-04-19 19:21:20', '2023-04-19 19:21:20'),
+(4, 'User Consultant', 'c@gmail.ru', '123', 2, '2023-04-20 19:13:48', '2023-04-20 19:13:48');
 
 --
 -- Индексы сохранённых таблиц
@@ -136,6 +173,21 @@ ALTER TABLE `auth_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `token` (`token`),
   ADD KEY `fk_user_id` (`user_id`);
+
+--
+-- Индексы таблицы `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Индексы таблицы `consultants`
+--
+ALTER TABLE `consultants`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_consultant_id` (`user_id`),
+  ADD KEY `fk_org_id` (`organization_id`);
 
 --
 -- Индексы таблицы `organizations`
@@ -176,10 +228,22 @@ ALTER TABLE `auth_tokens`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT для таблицы `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `consultants`
+--
+ALTER TABLE `consultants`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT для таблицы `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `regions`
@@ -197,7 +261,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -208,6 +272,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `auth_tokens`
   ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `consultants`
+--
+ALTER TABLE `consultants`
+  ADD CONSTRAINT `fk_org_id` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`),
+  ADD CONSTRAINT `fk_user_consultant_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `organizations`
