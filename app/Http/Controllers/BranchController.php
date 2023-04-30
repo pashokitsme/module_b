@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GenericCreateRequest;
 use App\Models\Region;
 
-class OrganizationController extends Controller
+class BranchController extends Controller
 {
   public function store(GenericCreateRequest $req, $regionId)
   {

@@ -19,12 +19,6 @@ class CategoryController extends Controller
     return $this->json($category);
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   */
   public function update(GenericCreateRequest $req, $id)
   {
     $category = Category::get($id);
@@ -32,11 +26,6 @@ class CategoryController extends Controller
     return $this->json($category);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   */
   public function destroy($id)
   {
     Category::get($id)->destroy();

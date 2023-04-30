@@ -12,18 +12,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ConsultantController extends Controller
 {
-  public function all($regionId, $orgId)
+  public function all($regionId, $branchId)
   {
     $consulatants = Consultant::all()->all();
     return $this->json([ConsultantResource::class, 'from'], $consulatants);
   }
 
-  public function store(CreateConsultantRequest $req, $regionId, $orgId): JsonResponse
+  public function store(CreateConsultantRequest $req, $regionId, $branchId): JsonResponse
   {
-    $org = Region::get($regionId)->organization($orgId);
-    $user = User::create($req->merge(['name' => $req->firstname . ' ' . $req->secondname, 'role_id' => Role::CONSULTANT]));
-    $user->save();
-    $consultant = Consultant::create(['user_id' => $user->id, 'organization_id' => $org->id]);
+    Region::get($regionId)->branch($branchId);
+    $consultant = Consultant::create($req->merge(['name' => $req->firstname . ' ' . $req->secondname, 'branch_id' => $req->organization_id]));
     $consultant->save();
     return $this->json(ConsultantResource::from($consultant));
   }

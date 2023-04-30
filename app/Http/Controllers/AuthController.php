@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\Request;
+use App\Models\Consultant;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
   public function login(LoginRequest $req): JsonResponse
   {
-    if (!$user = User::where('email', $req->email)->where('password', $req->password)->first())
+    $authorize = function ($model) use ($req): string {
+      if (!$x = $model::where('email', $req->email)->where('password', $req->password)->first())
+        return null;
+      $x->bearer = Str::random();
+      $x->save();
+      return $x->bearer;
+    };
+
+    if (!$token = $authorize(Admin::class) && !$token = $authorize(Consultant::class))
       return $this->error('Credentials are incorrect');
-    $token = $user->newToken();
-    return $this->json(['token' => $token->token]);
+    return $this->json(['token' => $token]);
   }
 
   public function logout(Request $req): JsonResponse
@@ -26,8 +35,7 @@ class AuthController extends Controller
   public function me(Request $req)
   {
     $me = $req->user;
-    $me['role'] = $me->role->name;
-    unset($me['role_id']);
+    $me['role'] = $me->role();
     return $this->json($me);
   }
 }

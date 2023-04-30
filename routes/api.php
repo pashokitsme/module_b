@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConsultantController;
-use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RegionController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,11 +30,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/', [RegionController::class, 'update']);
 
         Route::prefix('/organizations')->group(function () {
-          Route::post('/', [OrganizationController::class, 'store']);
+          Route::post('/', [BranchController::class, 'store']);
 
-          Route::prefix('/{orgId}')->group(function () {
-            Route::delete('/', [OrganizationController::class, 'delete']);
-            Route::put('/', [OrganizationController::class, 'update']);
+          Route::prefix('/{branchId}')->group(function () {
+            Route::delete('/', [BranchController::class, 'delete']);
+            Route::put('/', [BranchController::class, 'update']);
 
             Route::prefix('/consultants')->group(function () {
               Route::get('/', [ConsultantController::class, 'all']);
@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
   });
 
   Route::get('/regions', [RegionController::class, 'all']);
-  Route::get('/regions/{regionId}/organizations', [OrganizationController::class, 'all']);
+  Route::get('/regions/{regionId}/organizations', [BranchController::class, 'all']);
 
   Route::get('/regions/{id}', [RegionController::class, 'exact']);
 });

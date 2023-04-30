@@ -19,6 +19,7 @@ class Initial extends Migration
       $scheme->string('name');
       $scheme->string('email')->unique();
       $scheme->string('password');
+      $scheme->string('bearer')->unique()->nullable();
       if ($consultant)
         $scheme->unsignedBigInteger('branch_id');
       $scheme->timestamps();
