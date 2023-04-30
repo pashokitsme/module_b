@@ -8,14 +8,14 @@ class Region extends BaseModel
 {
   protected $fillable = ['name'];
 
-  public function organizations()
+  public function branches()
   {
-    return $this->hasMany(Organization::class);
+    return $this->hasMany(Branch::class);
   }
 
-  public function createOrganization($name): Organization
+  public function createBranch($name): Branch
   {
-    $org = Organization::create(['region_id' => $this->id, 'name' => $name]);
+    $org = Branch::create(['region_id' => $this->id, 'name' => $name]);
     $org->save();
     return $org;
   }
@@ -27,8 +27,8 @@ class Region extends BaseModel
     return $this->delete();
   }
 
-  public function organization($id): Organization
+  public function branch($id): Branch
   {
-    return Organization::get($id);
+    return Branch::get($id);
   }
 }
